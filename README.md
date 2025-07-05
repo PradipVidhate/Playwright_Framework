@@ -70,7 +70,7 @@ APP_PASSWORD=secret_sauce
 > ✅ Do not use `USERNAME` or `PASSWORD` as those may conflict with built-in system variables (especially on Windows).
 
 ### 4. How to Run Tests by Tags or Groups (Headed Mode)
-Run only smoke tests:
+Run all tests:
 ```bash
 npx playwright test --headed
 ```
