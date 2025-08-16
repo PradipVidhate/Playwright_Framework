@@ -1,35 +1,49 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
-
-pool:
-  vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: Release
 
-steps:
-- script: echo "Building in $(buildConfiguration) mode"
-  displayName: 'Use variable'
+stages:
+- stage: BuildAndInfo
+  displayName: "Build + Info Stage"
+  jobs:
+  - job: DefaultJob
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: echo "Building in $(buildConfiguration) mode"
+      displayName: 'Use variable'
 
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-    echo This is environment variable: $(environment)
-  displayName: 'Run a multi-line script'
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+        echo This is environment variable: $(environment)
+      displayName: 'Run a multi-line script'
 
-- script: |
-    echo "Build ID: $(Build.BuildId)"
-    echo "Build Number: $(Build.BuildNumber)"
-    echo "Branch: $(Build.SourceBranch)"
-    echo "Commit: $(Build.SourceVersion)"
-    echo "Repo: $(Build.Repository.Name)"
-    echo "Agent OS: $(Agent.OS)"
-  displayName: "Print system variables"
+    - script: |
+        echo "Build ID: $(Build.BuildId)"
+        echo "Build Number: $(Build.BuildNumber)"
+        echo "Branch: $(Build.SourceBranch)"
+        echo "Commit: $(Build.SourceVersion)"
+        echo "Repo: $(Build.Repository.Name)"
+        echo "Agent OS: $(Agent.OS)"
+      displayName: "Print system variables"
+
+- stage: CrossPlatform
+  displayName: "Run on Multiple OS"
+  jobs:
+  - job: Linux
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: echo "Running on Linux"
+
+  - job: Windows
+    pool:
+      vmImage: windows-latest
+    steps:
+    - script: echo "Running on Windows"
