@@ -24,3 +24,12 @@ steps:
     echo See https://aka.ms/yaml
     echo This is environment variable: $(environment)
   displayName: 'Run a multi-line script'
+
+- script: |
+    echo "Build ID: $(Build.BuildId)"
+    echo "Build Number: $(Build.BuildNumber)"
+    echo "Branch: $(Build.SourceBranch)"
+    echo "Commit: $(Build.SourceVersion)"
+    echo "Repo: $(Build.Repository.Name)"
+    echo "Agent OS: $(Agent.OS)"
+  displayName: "Print system variables"
