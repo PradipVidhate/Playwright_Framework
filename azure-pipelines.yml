@@ -9,7 +9,13 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  buildConfiguration: Release
+
 steps:
+- script: echo "Building in $(buildConfiguration) mode"
+  displayName: 'Use variable'
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
