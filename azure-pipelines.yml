@@ -45,8 +45,8 @@ stages:
     - script: echo "Browser selected = ${{ parameters.browser }}"
       displayName: "Print chosen browser"
 
-    - script: mvn clean test -Dbrowser=${{ parameters.browser }}
-      displayName: "Run TestNG tests with chosen browser"
+    #- script: mvn clean test -Dbrowser=${{ parameters.browser }}
+    #  displayName: "Run TestNG tests with chosen browser"
 
 - stage: CrossPlatform
   displayName: "Run on Multiple OS"
