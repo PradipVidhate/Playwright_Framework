@@ -1,6 +1,15 @@
 trigger:
 - master
 
+parameters:
+- name: browser
+  type: string
+  default: chrome
+  values:
+  - chrome
+  - edge
+  - firefox
+
 variables:
   buildConfiguration: Release
 
@@ -33,6 +42,12 @@ stages:
         echo "Agent OS: $(Agent.OS)"
       displayName: "Print system variables"
 
+    - script: echo "Browser selected = ${{ parameters.browser }}"
+      displayName: "Print chosen browser"
+
+    - script: mvn clean test -Dbrowser=${{ parameters.browser }}
+      displayName: "Run TestNG tests with chosen browser"
+
 - stage: CrossPlatform
   displayName: "Run on Multiple OS"
   jobs:
@@ -40,10 +55,10 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - script: echo "Running on Linux"
+    - script: echo "Running on Linux with browser = ${{ parameters.browser }}"
 
   - job: Windows
     pool:
       vmImage: windows-latest
     steps:
-    - script: echo "Running on Windows"
+    - script: echo "Running on Windows with browser = ${{ parameters.browser }}"
