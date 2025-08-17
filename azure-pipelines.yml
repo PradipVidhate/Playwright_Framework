@@ -1,15 +1,6 @@
 trigger:
 - master
 
-parameters:
-- name: browser
-  type: string
-  default: chrome
-  values:
-  - chrome
-  - edge
-  - firefox
-
 variables:
   buildConfiguration: Release
 
@@ -42,11 +33,17 @@ stages:
         echo "Agent OS: $(Agent.OS)"
       displayName: "Print system variables"
 
-    - script: echo "Browser selected = ${{ parameters.browser }}"
-      displayName: "Print chosen browser"
+    # Example build output (simulate creating files to publish)
+    - script: |
+        mkdir -p $(Build.ArtifactStagingDirectory)
+        echo "This is a sample build output" > $(Build.ArtifactStagingDirectory)/output.txt
+      displayName: "Generate build output"
 
-    #- script: mvn clean test -Dbrowser=${{ parameters.browser }}
-    #  displayName: "Run TestNG tests with chosen browser"
+    # Publish artifacts
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
 
 - stage: CrossPlatform
   displayName: "Run on Multiple OS"
@@ -55,10 +52,10 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - script: echo "Running on Linux with browser = ${{ parameters.browser }}"
+    - script: echo "Running on Linux"
 
   - job: Windows
     pool:
       vmImage: windows-latest
     steps:
-    - script: echo "Running on Windows with browser = ${{ parameters.browser }}"
+    - script: echo "Running on Windows"
